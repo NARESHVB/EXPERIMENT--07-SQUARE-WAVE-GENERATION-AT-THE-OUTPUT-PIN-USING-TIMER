@@ -1,4 +1,9 @@
-# EXPERIMENT--06-SQUARE-WAVE-GENERATION-AT-THE-OUTPUT-PIN-USING-TIMER
+# EXPERIMENT--07-SQUARE-WAVE-GENERATION-AT-THE-OUTPUT-PIN-USING-TIMER
+
+### NAME: NARESH.V
+### REG NO: 212222110027
+### DATE : 30/04/2024
+
 ### Aim:
 To generate a PWM wave at the timer pin output and  simuate it on  proteus using an virtual oscilloscope  
 
@@ -88,30 +93,14 @@ Step10. Double click on the the MCU part to open settings. Next to the Program F
  
 Step14. click on debug and simulate using simulation as shown below 
  ![image](https://github.com/vasanthkumarch/EXPERIMENT--07-SQUARE-WAVE-GENERATION-AT-THE-OUTPUT-PIN-USING-TIMER/assets/36288975/b8efbfc2-f0c5-4106-8117-3a6e7ac87f6c)
+
+
+ 
+
   
 
 ## STM 32 CUBE PROGRAM :
-
-```
-/* USER CODE BEGIN Header */
-/**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2024 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
-/* USER CODE END Header */
-/* Includes ------------------------------------------------------------------*/
+```python
 #include "main.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -183,16 +172,14 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
+  HAL_TIM_Base_Start(&htim2);
+  HAL_TIM_PWM_Init(&htim2);
+  HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_1);
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  HAL_TIM_Base_Start(&htim2);
-  HAL_TIM_PWM_Init(&htim2);
-  HAL_TIM_PWM_Start(&htim2 ,TIM_CHANNEL_1);
-
-
   while (1)
   {
     /* USER CODE END WHILE */
@@ -263,7 +250,7 @@ static void MX_TIM2_Init(void)
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 0;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 1000;
+  htim2.Init.Period = 10000;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
@@ -286,7 +273,7 @@ static void MX_TIM2_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 500;
+  sConfigOC.Pulse = 2500;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
@@ -348,33 +335,60 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
+
 ```
 
-## Output screen shots of proteus  :
-![image](https://github.com/YendluriChandana/EXPERIMENT--07-SQUARE-WAVE-GENERATION-AT-THE-OUTPUT-PIN-USING-TIMER/assets/139842204/9332b9b5-f9ab-4b75-a5e1-759804ea27e3)
 
+
+
+
+## Output screen shots of proteus  :
+
+
+![PMC_6 1 1](https://github.com/gummadileepkumar/EXPERIMENT--07-SQUARE-WAVE-GENERATION-AT-THE-OUTPUT-PIN-USING-TIMER/assets/118707761/bef6847b-fffe-4835-bac5-41fe4d58f01a)
+
+ 
  
  ## CIRCUIT DIAGRAM (EXPORT THE GRAPHICS TO PDF AND ADD THE SCREEN SHOT HERE): 
- ![image](https://github.com/YendluriChandana/EXPERIMENT--07-SQUARE-WAVE-GENERATION-AT-THE-OUTPUT-PIN-USING-TIMER/assets/139842204/a9b3db3a-ed3b-49f4-96d4-b241109498ca)
+ ![PCM_design_6 1](https://github.com/gummadileepkumar/EXPERIMENT--07-SQUARE-WAVE-GENERATION-AT-THE-OUTPUT-PIN-USING-TIMER/assets/118707761/4299a3af-ae4e-463c-a47e-af143dfffc04)
 
- 
+ ## Screen shots of Digital Oscilloscope:
+ ### PULSE AT 2500 :
+![PMC_6 1_25](https://github.com/gummadileepkumar/EXPERIMENT--07-SQUARE-WAVE-GENERATION-AT-THE-OUTPUT-PIN-USING-TIMER/assets/118707761/ff8952d5-d73e-4440-885c-3cb216486022)
+
+### PULSE AT 5000 :
+![PMC_6 2_50](https://github.com/gummadileepkumar/EXPERIMENT--07-SQUARE-WAVE-GENERATION-AT-THE-OUTPUT-PIN-USING-TIMER/assets/118707761/87be1535-bb79-477a-b6b8-64952861afb0)
+
+
+### PULSE AT 7500 :
+![PMC_6 3_75](https://github.com/gummadileepkumar/EXPERIMENT--07-SQUARE-WAVE-GENERATION-AT-THE-OUTPUT-PIN-USING-TIMER/assets/118707761/54bd04cf-5636-4c45-a9f0-39f5f6b99c58)
+
 
 ## DUTY CYCLE AND FREQUENCY CALCULATION 
-FOR PULSE AT 500
+### FOR PULSE AT 2500
 
-TON = 2ms
-TOFF=2ms
-TOTAL TIME = 4ms
-FREQUENCY = 1/(TOTAL TIME)=1/4=250 Hz
-![image](https://github.com/YendluriChandana/EXPERIMENT--07-SQUARE-WAVE-GENERATION-AT-THE-OUTPUT-PIN-USING-TIMER/assets/139842204/a14db4c4-3f8a-432e-a3a6-0a4472b48dfe)
+##### TON = 3*50 = 150 * 10^-6  
+##### TOFF = 9*50 = 450 * 10^-6  
+##### TOTAL TIME = 600 
+##### FREQUENCY = 1/600 = 0.00166 = 1.6 KHZ 
+##### Duty Cycle % = (150/600)*100 = 25%
+
+### FOR PULSE AT 5000
+
+##### TON = 6*50 = 300 * 10^-6    
+##### TOFF= 6*50 = 300 * 10^-6 
+##### TOTAL TIME = 600 
+##### FREQUENCY = 1/600 = 0.00166 = 1.6 KHZ
+##### Duty Cycle % = (300/600)*100 = 50%
 
 
-FOR PULSE AT 700 TON = 3ms TOFF= 1ms TOTAL TIME = 4ms FREQUENCY = 1/(TOTAL TIME)=1/4=250Hz
-![image](https://github.com/YendluriChandana/EXPERIMENT--07-SQUARE-WAVE-GENERATION-AT-THE-OUTPUT-PIN-USING-TIMER/assets/139842204/269f1eb4-f26c-40ae-bddb-a66b576394de)
+### FOR PULSE AT 7500
 
-
-FOR PULSE AT 900 TON = 3.5ms TOFF= 0.5ms TOTAL TIME = 4ms FREQUENCY = 1/(TOTAL TIME)=1/4=250Hz
-![image](https://github.com/YendluriChandana/EXPERIMENT--07-SQUARE-WAVE-GENERATION-AT-THE-OUTPUT-PIN-USING-TIMER/assets/139842204/3788b87c-9395-424b-9faa-228899183ee5)
+##### TON = 9*50 = 450 * 10^-6 
+##### TOFF= 3*50 = 150 * 10^-6 
+##### TOTAL TIME = 600  
+##### FREQUENCY = 1/600 = 0.00166 = 1.6 KHZ 
+##### Duty Cycle % = (450/600)*100 = 75%
 
 
 ## Result :
